@@ -1,0 +1,137 @@
+import { LerpData, isInBounds } from "./walk";
+
+// camera object to get user position
+export const camera = Camera.instance
+
+// list of possible goals
+export enum Goal {
+    Idle,
+    Sit,
+    Follow,
+    GoDrink,
+    Drinking
+  }
+
+// store the current and last goal
+@Component('behavior')
+export class Behavior {
+  goal: Goal = Goal.Idle
+  previousGoal: Goal = Goal.Idle
+  timer: number = 1
+}
+
+// component group listing all dogs
+export const dogs = engine.getComponentGroup(Behavior)
+
+// evaluate goals randomly
+export class SwitchGoals implements ISystem {
+    update(dt: number) {
+      for (let dog of dogs.entities) {
+        let behavior = dog.get(Behavior)
+        let walk = dog.get(LerpData)
+        let transform = dog.get(Transform)
+        behavior.timer -= dt
+        if (behavior.timer < 0) {
+          behavior.timer = 2
+          switch (behavior.goal) {
+            case Goal.Idle:
+              considerGoals( dog, [
+                { goal: Goal.Sit, odds: 0.1 },
+                { goal: Goal.Follow, odds: 0.9 }
+              ])
+              break
+            case Goal.Drinking:
+              considerGoals(dog, [{ goal: Goal.Sit, odds: 0.3 }])
+              break
+            case Goal.Follow:
+              considerGoals(dog, [{ goal: Goal.Idle, odds: 0.1 }])
+              break
+            case Goal.GoDrink:
+              break
+            case Goal.Sit:
+              considerGoals(dog, [{ goal: Goal.Idle, odds: 0.1 }])
+              break
+          }
+          if (behavior.goal == Goal.Follow) {
+            walk.target = camera.position
+            walk.origin = transform.position
+            walk.fraction = 0
+          }
+        }
+        if (
+          behavior.goal == Goal.GoDrink &&
+          Vector3.Distance(walk.target, transform.position) < 1
+        ) {
+          setDogGoal(dog, Goal.Drinking)
+          walk.fraction = 1
+        }
+        if (
+          behavior.goal == Goal.Follow &&
+          Vector3.Distance(walk.target, transform.position) < 2
+        ) {
+          setDogGoal(dog, Goal.Sit)
+          walk.fraction = 1
+        }
+        setAnimations(dog)
+      }
+    }
+}
+
+// choose randomly between goal options
+export function considerGoals(dog: Entity, goals: { goal: Goal; odds: number }[]) {
+    for (let i = 0; i < goals.length; i++) {
+      if (Math.random() < goals[i].odds) {
+        switch (goals[i].goal) {
+          case Goal.Follow:
+            if (!isInBounds(camera.position)) {
+              continue
+            }
+        }
+        setDogGoal(dog, goals[i].goal)
+        return
+      }
+    }
+}
+
+// set the values in the Behavior component
+export function setDogGoal(dog: Entity, goal: Goal) {
+    let behavior = dog.get(Behavior)
+    behavior.previousGoal = behavior.goal
+    behavior.goal = goal
+    log('new goal: ' + goal)
+}
+
+// set animations
+export function setAnimations(dog: Entity) {
+    let sit = dog.get(GLTFShape).getClip('Sitting')
+    let stand = dog.get(GLTFShape).getClip('Standing')
+    let walk = dog.get(GLTFShape).getClip('Walking')
+    let drink = dog.get(GLTFShape).getClip('Drinking')
+    let idle = dog.get(GLTFShape).getClip('Idle')
+  
+    sit.playing = false
+    stand.playing = false
+    walk.playing = false
+    drink.playing = false
+    idle.playing = false
+  
+    switch (dog.get(Behavior).goal) {
+      case Goal.Sit:
+        sit.playing = true
+        break
+      case Goal.Follow:
+        walk.playing = true
+      case Goal.GoDrink:
+        walk.playing = true
+        break
+      case Goal.Drinking:
+        drink.playing = true
+        break
+      case Goal.Idle:
+        idle.playing = true
+        break
+    }
+    if (dog.get(Behavior).previousGoal == Goal.Sit) {
+      stand.playing = true
+    }
+  }
