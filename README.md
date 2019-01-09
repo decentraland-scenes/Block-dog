@@ -4,9 +4,7 @@ A scene with a simple AI character. It randomly chooses what action to take: fol
 
 ![](screenshot/screenshot.png)
 
-<!--
-[Explore the scene](): this link takes you to a copy of the scene deployed to a remote server where you can interact with it just as if you were running `dcl start` locally.
--->
+[Explore the scene](https://blockdog-wtciaozdbo.now.sh/?position=0%2C0): this link takes you to a copy of the scene deployed to a remote server where you can interact with it just as if you were running `dcl start` locally.
 
 **Install the CLI**
 
