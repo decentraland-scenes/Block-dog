@@ -17,11 +17,11 @@ engine.addSystem(new LerpMove())
 
 
 export function setAnimations(dog: Entity) {
-  let sit = dog.get(GLTFShape).getClip('Sitting')
-  let stand = dog.get(GLTFShape).getClip('Standing')
-  let walk = dog.get(GLTFShape).getClip('Walking')
-  let drink = dog.get(GLTFShape).getClip('Drinking')
-  let idle = dog.get(GLTFShape).getClip('Idle')
+  let sit = dog.getComponent(Animator).getClip('Sitting')
+  let stand = dog.getComponent(Animator).getClip('Standing')
+  let walk = dog.getComponent(Animator).getClip('Walking')
+  let drink = dog.getComponent(Animator).getClip('Drinking')
+  let idle = dog.getComponent(Animator).getClip('Idle')
 
   sit.playing = false
   stand.playing = false
@@ -29,7 +29,7 @@ export function setAnimations(dog: Entity) {
   drink.playing = false
   idle.playing = false
 
-  switch (dog.get(Behavior).goal) {
+  switch (dog.getComponent(Behavior).goal) {
     case Goal.Sit:
       sit.playing = true
       break
@@ -45,7 +45,7 @@ export function setAnimations(dog: Entity) {
       idle.playing = true
       break
   }
-  if (dog.get(Behavior).previousGoal == Goal.Sit) {
+  if (dog.getComponent(Behavior).previousGoal == Goal.Sit) {
     stand.playing = true
   }
 }
@@ -55,54 +55,59 @@ export function setAnimations(dog: Entity) {
 
 // Bowl
 const bowl = new Entity()
-bowl.add(new GLTFShape('models/BlockDogBowl.gltf'))
-bowl.add(new Transform({
+bowl.addComponent(new GLTFShape('models/BlockDogBowl.gltf'))
+bowl.addComponent(new Transform({
   position: new Vector3(9, 0, 1)
 }))
-bowl.add(
-  new OnClick(e => {
+bowl.addComponent(
+  new OnPointerDown(e => {
     setDogGoal(dog, Goal.GoDrink)
-    dog.get(LerpData).target = bowl.get(Transform).position
-    dog.get(LerpData).origin = dog.get(Transform).position
-    dog.get(LerpData).fraction = 0
+    dog.getComponent(LerpData).target = bowl.getComponent(Transform).position
+    dog.getComponent(LerpData).origin = dog.getComponent(Transform).position
+    dog.getComponent(LerpData).fraction = 0
   })
 )
 engine.addEntity(bowl)
 
 // Garden
 const garden = new Entity()
-garden.add(new GLTFShape('models/garden.gltf'))
-garden.add(new Transform({
-  position: new Vector3(5, 0, 5)
+garden.addComponent(new GLTFShape('models/garden.gltf'))
+garden.addComponent(new Transform({
+  position: new Vector3(8, 0, 8),
+  scale: new Vector3(1.6, 1.6, 1.6)
 }))
 engine.addEntity(garden)
 
 // Dog
 const dog = new Entity()
-dog.add(new GLTFShape('models/BlockDog.gltf'))
-dog.get(GLTFShape).addClip(new AnimationClip('Idle'))
-dog.get(GLTFShape)
-  .addClip(new AnimationClip('Sitting', { speed: 1, loop: false }))
-dog.get(GLTFShape)
-  .addClip(new AnimationClip('Standing', { speed: 1, loop: false }))
-dog.get(GLTFShape).addClip(new AnimationClip('Walking'))
-dog.get(GLTFShape).addClip(new AnimationClip('Drinking'))
-dog.get(GLTFShape)
+dog.addComponent(new GLTFShape('models/BlockDog.gltf'))
+dog.addComponent(new Animator())
+let idleAnimation = new AnimationClip('Idle')
+let sittingAnimation = new AnimationClip('Sitting')
+sittingAnimation.looping = false
+let standingAnimation = new AnimationClip('Standing')
+standingAnimation.looping = false
+
+dog.getComponent(Animator).addClip(idleAnimation)
+dog.getComponent(Animator).addClip(sittingAnimation)
+dog.getComponent(Animator).addClip(standingAnimation)
+
+dog.getComponent(Animator)
   .getClip('Idle')
   .play()
 
-dog.add(new Transform({
+dog.addComponent(new Transform({
   position: new Vector3(5, 0, 5)
 }))
-dog.add(new Behavior())
-dog.add(new LerpData())
-dog.add(
-  new OnClick(e => {
-    if (dog.get(Behavior).goal == Goal.Sit) {
+dog.addComponent(new Behavior())
+dog.addComponent(new LerpData())
+dog.addComponent(
+  new OnPointerDown(e => {
+    if (dog.getComponent(Behavior).goal == Goal.Sit) {
       setDogGoal(dog, Goal.Idle)
     } else {
       setDogGoal(dog, Goal.Sit)
-      dog.get(LerpData).fraction = 1
+      dog.getComponent(LerpData).fraction = 1
     }
   })
 )
