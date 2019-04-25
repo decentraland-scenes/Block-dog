@@ -27,9 +27,9 @@ export const dogs = engine.getComponentGroup(Behavior)
 export class SwitchGoals implements ISystem {
     update(dt: number) {
       for (let dog of dogs.entities) {
-        let behavior = dog.get(Behavior)
-        let walk = dog.get(LerpData)
-        let transform = dog.get(Transform)
+        let behavior = dog.getComponent(Behavior)
+        let walk = dog.getComponent(LerpData)
+        let transform = dog.getComponent(Transform)
         behavior.timer -= dt
         if (behavior.timer < 0) {
           behavior.timer = 2
@@ -95,7 +95,7 @@ export function considerGoals(dog: Entity, goals: { goal: Goal; odds: number }[]
 
 // set the values in the Behavior component
 export function setDogGoal(dog: Entity, goal: Goal) {
-    let behavior = dog.get(Behavior)
+    let behavior = dog.getComponent(Behavior)
     behavior.previousGoal = behavior.goal
     behavior.goal = goal
     log('new goal: ' + goal)
@@ -103,11 +103,11 @@ export function setDogGoal(dog: Entity, goal: Goal) {
 
 // set animations
 export function setAnimations(dog: Entity) {
-    let sit = dog.get(GLTFShape).getClip('Sitting')
-    let stand = dog.get(GLTFShape).getClip('Standing')
-    let walk = dog.get(GLTFShape).getClip('Walking')
-    let drink = dog.get(GLTFShape).getClip('Drinking')
-    let idle = dog.get(GLTFShape).getClip('Idle')
+    let sit = dog.getComponent(Animator).getClip('Sitting')
+    let stand = dog.getComponent(Animator).getClip('Standing')
+    let walk = dog.getComponent(Animator).getClip('Walking')
+    let drink = dog.getComponent(Animator).getClip('Drinking')
+    let idle = dog.getComponent(Animator).getClip('Idle')
   
     sit.playing = false
     stand.playing = false
@@ -115,7 +115,7 @@ export function setAnimations(dog: Entity) {
     drink.playing = false
     idle.playing = false
   
-    switch (dog.get(Behavior).goal) {
+    switch (dog.getComponent(Behavior).goal) {
       case Goal.Sit:
         sit.playing = true
         break
@@ -131,7 +131,7 @@ export function setAnimations(dog: Entity) {
         idle.playing = true
         break
     }
-    if (dog.get(Behavior).previousGoal == Goal.Sit) {
+    if (dog.getComponent(Behavior).previousGoal == Goal.Sit) {
       stand.playing = true
     }
   }

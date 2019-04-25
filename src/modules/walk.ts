@@ -12,8 +12,8 @@ export class LerpData {
 export class LerpMove implements ISystem {
     update(dt: number) {
       for (let dog of dogs.entities) {
-        let transform = dog.get(Transform)
-        let walk = dog.get(LerpData)
+        let transform = dog.getComponent(Transform)
+        let walk = dog.getComponent(LerpData)
         transform.lookAt(walk.target)
         if (walk.fraction < 1) {
           if (!isInBounds(walk.target)) return
