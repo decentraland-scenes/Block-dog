@@ -71,7 +71,7 @@ engine.addEntity(bowl)
 
 // Garden
 const garden = new Entity()
-garden.addComponent(new GLTFShape('models/garden.gltf'))
+garden.addComponent(new GLTFShape('models/garden.glb'))
 garden.addComponent(new Transform({
   position: new Vector3(8, 0, 8),
   scale: new Vector3(1.6, 1.6, 1.6)
