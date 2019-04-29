@@ -17,11 +17,11 @@ engine.addSystem(new LerpMove())
 
 
 export function setAnimations(dog: Entity) {
-  let sit = dog.getComponent(Animator).getClip('Sitting')
-  let stand = dog.getComponent(Animator).getClip('Standing')
-  let walk = dog.getComponent(Animator).getClip('Walking')
-  let drink = dog.getComponent(Animator).getClip('Drinking')
-  let idle = dog.getComponent(Animator).getClip('Idle')
+  let sit = dog.getComponent(Animator).getClip('Sitting_Armature_0')
+  let stand = dog.getComponent(Animator).getClip('Standing_Armature_0')
+  let walk = dog.getComponent(Animator).getClip('Walking_Armature_0')
+  let drink = dog.getComponent(Animator).getClip('Drinking_Armature_0')
+  let idle = dog.getComponent(Animator).getClip('Idle_Armature_0')
 
   sit.playing = false
   stand.playing = false
@@ -80,12 +80,12 @@ engine.addEntity(garden)
 
 // Dog
 const dog = new Entity()
-dog.addComponent(new GLTFShape('models/BlockDog.gltf'))
+dog.addComponent(new GLTFShape('models/BlockDog.glb'))
 dog.addComponent(new Animator())
-let idleAnimation = new AnimationClip('Idle')
-let sittingAnimation = new AnimationClip('Sitting')
+let idleAnimation = new AnimationClip('Idle_Armature_0')
+let sittingAnimation = new AnimationClip('Sitting_Armature_0')
 sittingAnimation.looping = false
-let standingAnimation = new AnimationClip('Standing')
+let standingAnimation = new AnimationClip('Standing_Armature_0')
 standingAnimation.looping = false
 
 dog.getComponent(Animator).addClip(idleAnimation)
