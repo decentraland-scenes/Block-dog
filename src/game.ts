@@ -82,10 +82,10 @@ engine.addEntity(garden)
 const dog = new Entity()
 dog.addComponent(new GLTFShape('models/BlockDog.glb'))
 dog.addComponent(new Animator())
-let idleAnimation = new AnimationClip('Idle_Armature_0')
-let sittingAnimation = new AnimationClip('Sitting_Armature_0')
+let idleAnimation = new AnimationState('Idle_Armature_0')
+let sittingAnimation = new AnimationState('Sitting_Armature_0')
 sittingAnimation.looping = false
-let standingAnimation = new AnimationClip('Standing_Armature_0')
+let standingAnimation = new AnimationState('Standing_Armature_0')
 standingAnimation.looping = false
 
 dog.getComponent(Animator).addClip(idleAnimation)
