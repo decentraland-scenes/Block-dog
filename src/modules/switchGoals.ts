@@ -78,7 +78,7 @@ export class SwitchGoals implements ISystem {
 }
 
 // choose randomly between goal options
-export function considerGoals(dog: Entity, goals: { goal: Goal; odds: number }[]) {
+export function considerGoals(dog: IEntity, goals: { goal: Goal; odds: number }[]) {
     for (let i = 0; i < goals.length; i++) {
       if (Math.random() < goals[i].odds) {
         switch (goals[i].goal) {
@@ -94,7 +94,7 @@ export function considerGoals(dog: Entity, goals: { goal: Goal; odds: number }[]
 }
 
 // set the values in the Behavior component
-export function setDogGoal(dog: Entity, goal: Goal) {
+export function setDogGoal(dog: IEntity, goal: Goal) {
     let behavior = dog.getComponent(Behavior)
     behavior.previousGoal = behavior.goal
     behavior.goal = goal
@@ -102,7 +102,7 @@ export function setDogGoal(dog: Entity, goal: Goal) {
 }
 
 // set animations
-export function setAnimations(dog: Entity) {
+export function setAnimations(dog: IEntity) {
     let sit = dog.getComponent(Animator).getClip('Sitting')
     let stand = dog.getComponent(Animator).getClip('Standing')
     let walk = dog.getComponent(Animator).getClip('Walking')
@@ -117,7 +117,8 @@ export function setAnimations(dog: Entity) {
   
     switch (dog.getComponent(Behavior).goal) {
       case Goal.Sit:
-        sit.playing = true
+		sit.playing = true
+		sit.looping = false
         break
       case Goal.Follow:
         walk.playing = true
@@ -132,6 +133,7 @@ export function setAnimations(dog: Entity) {
         break
     }
     if (dog.getComponent(Behavior).previousGoal == Goal.Sit) {
-      stand.playing = true
+	  stand.playing = true
+	  stand.looping = false
     }
   }
