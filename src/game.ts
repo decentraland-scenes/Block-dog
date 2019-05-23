@@ -31,7 +31,8 @@ export function setAnimations(dog: Entity) {
 
   switch (dog.getComponent(Behavior).goal) {
     case Goal.Sit:
-      sit.playing = true
+	  sit.playing = true
+	  sit.looping = false
       break
     case Goal.Follow:
       walk.playing = true
@@ -46,7 +47,8 @@ export function setAnimations(dog: Entity) {
       break
   }
   if (dog.getComponent(Behavior).previousGoal == Goal.Sit) {
-    stand.playing = true
+	stand.playing = true
+	sit.looping = false
   }
 }
 
@@ -83,14 +85,14 @@ const dog = new Entity()
 dog.addComponent(new GLTFShape('models/BlockDog.glb'))
 dog.addComponent(new Animator())
 let idleAnimation = new AnimationState('Idle_Armature_0')
-let sittingAnimation = new AnimationState('Sitting_Armature_0')
-sittingAnimation.looping = false
-let standingAnimation = new AnimationState('Standing_Armature_0')
-standingAnimation.looping = false
+// let sittingAnimation = new AnimationState('Sitting_Armature_0')
+// sittingAnimation.looping = false
+// let standingAnimation = new AnimationState('Standing_Armature_0')
+// standingAnimation.looping = false
 
 dog.getComponent(Animator).addClip(idleAnimation)
-dog.getComponent(Animator).addClip(sittingAnimation)
-dog.getComponent(Animator).addClip(standingAnimation)
+// dog.getComponent(Animator).addClip(sittingAnimation)
+// dog.getComponent(Animator).addClip(standingAnimation)
 
 dog.getComponent(Animator)
   .getClip('Idle')
