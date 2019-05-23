@@ -31,7 +31,9 @@ export function setAnimations(dog: Entity) {
 
   switch (dog.getComponent(Behavior).goal) {
     case Goal.Sit:
-      sit.playing = true
+      
+      //sit.playing = true
+      sit.looping = false  
       break
     case Goal.Follow:
       walk.playing = true
@@ -46,7 +48,10 @@ export function setAnimations(dog: Entity) {
       break
   }
   if (dog.getComponent(Behavior).previousGoal == Goal.Sit) {
-    stand.playing = true
+    
+	stand.playing = true
+	stand.looping = false
+    
   }
 }
 
@@ -60,7 +65,7 @@ bowl.addComponent(new Transform({
   position: new Vector3(9, 0, 1)
 }))
 bowl.addComponent(
-  new OnPointerDown(e => {
+  new OnClick(e => {
     setDogGoal(dog, Goal.GoDrink)
     dog.getComponent(LerpData).target = bowl.getComponent(Transform).position
     dog.getComponent(LerpData).origin = dog.getComponent(Transform).position
@@ -81,28 +86,36 @@ engine.addEntity(garden)
 // Dog
 const dog = new Entity()
 dog.addComponent(new GLTFShape('models/BlockDog.glb'))
+dog.addComponent(new Transform({
+  position: new Vector3(5, 0, 5)
+}))
 dog.addComponent(new Animator())
+engine.addEntity(dog)
+
+
 let idleAnimation = new AnimationState('Idle_Armature_0')
 let sittingAnimation = new AnimationState('Sitting_Armature_0')
 sittingAnimation.looping = false
 let standingAnimation = new AnimationState('Standing_Armature_0')
 standingAnimation.looping = false
+let walkingAnimation = new AnimationState('Walking_Armature_0')
+let drinkingAnimation = new AnimationState('Drinking_Armature_0')
 
 dog.getComponent(Animator).addClip(idleAnimation)
 dog.getComponent(Animator).addClip(sittingAnimation)
 dog.getComponent(Animator).addClip(standingAnimation)
+dog.getComponent(Animator).addClip(walkingAnimation)
+dog.getComponent(Animator).addClip(drinkingAnimation)
 
 dog.getComponent(Animator)
   .getClip('Idle')
   .play()
 
-dog.addComponent(new Transform({
-  position: new Vector3(5, 0, 5)
-}))
+
 dog.addComponent(new Behavior())
 dog.addComponent(new LerpData())
 dog.addComponent(
-  new OnPointerDown(e => {
+  new OnClick(e => {
     if (dog.getComponent(Behavior).goal == Goal.Sit) {
       setDogGoal(dog, Goal.Idle)
     } else {
@@ -111,5 +124,5 @@ dog.addComponent(
     }
   })
 )
-engine.addEntity(dog)
+
 
