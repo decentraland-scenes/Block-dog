@@ -85,14 +85,8 @@ const dog = new Entity()
 dog.addComponent(new GLTFShape('models/BlockDog.glb'))
 dog.addComponent(new Animator())
 let idleAnimation = new AnimationState('Idle_Armature_0')
-// let sittingAnimation = new AnimationState('Sitting_Armature_0')
-// sittingAnimation.looping = false
-// let standingAnimation = new AnimationState('Standing_Armature_0')
-// standingAnimation.looping = false
 
 dog.getComponent(Animator).addClip(idleAnimation)
-// dog.getComponent(Animator).addClip(sittingAnimation)
-// dog.getComponent(Animator).addClip(standingAnimation)
 
 dog.getComponent(Animator)
   .getClip('Idle')
@@ -114,4 +108,3 @@ dog.addComponent(
   })
 )
 engine.addEntity(dog)
-
