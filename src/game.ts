@@ -16,7 +16,7 @@ engine.addSystem(new LerpMove())
 
 
 
-export function setAnimations(dog: Entity) {
+export function setAnimations(dog: IEntity) {
   let sit = dog.getComponent(Animator).getClip('Sitting_Armature_0')
   let stand = dog.getComponent(Animator).getClip('Standing_Armature_0')
   let walk = dog.getComponent(Animator).getClip('Walking_Armature_0')
