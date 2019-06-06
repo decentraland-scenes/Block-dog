@@ -113,7 +113,8 @@ export function setAnimations(dog: IEntity) {
     stand.playing = false
     walk.playing = false
     drink.playing = false
-    idle.playing = false
+	idle.playing = false
+	stand.playing = false
   
     switch (dog.getComponent(Behavior).goal) {
       case Goal.Sit:
@@ -132,8 +133,8 @@ export function setAnimations(dog: IEntity) {
         idle.playing = true
         break
     }
-    if (dog.getComponent(Behavior).previousGoal == Goal.Sit) {
-	  stand.playing = true
-	  stand.looping = false
-    }
+    // if (dog.getComponent(Behavior).previousGoal == Goal.Sit) {
+	//   stand.playing = true
+	//   stand.looping = false
+    // }
   }

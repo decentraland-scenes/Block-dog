@@ -62,7 +62,7 @@ bowl.addComponent(new Transform({
   position: new Vector3(9, 0, 1)
 }))
 bowl.addComponent(
-  new OnPointerDown(e => {
+  new OnClick(e => {
     setDogGoal(dog, Goal.GoDrink)
     dog.getComponent(LerpData).target = bowl.getComponent(Transform).position
     dog.getComponent(LerpData).origin = dog.getComponent(Transform).position
@@ -98,7 +98,7 @@ dog.addComponent(new Transform({
 dog.addComponent(new Behavior())
 dog.addComponent(new LerpData())
 dog.addComponent(
-  new OnPointerDown(e => {
+  new OnClick(e => {
     if (dog.getComponent(Behavior).goal == Goal.Sit) {
       setDogGoal(dog, Goal.Idle)
     } else {
