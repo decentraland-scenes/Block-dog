@@ -100,7 +100,7 @@ dog.addComponent(new LerpData())
 dog.addComponent(
   new OnClick(e => {
     if (dog.getComponent(Behavior).goal == Goal.Sit) {
-      setDogGoal(dog, Goal.Idle)
+	  setDogGoal(dog, Goal.Idle)
     } else {
       setDogGoal(dog, Goal.Sit)
       dog.getComponent(LerpData).fraction = 1

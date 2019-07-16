@@ -53,7 +53,9 @@ export class SwitchGoals implements ISystem {
               break
           }
           if (behavior.goal == Goal.Follow) {
-            walk.target = camera.position
+			let newTarget = camera.position.clone()
+			newTarget.y = 0
+			walk.target = newTarget
             walk.origin = transform.position
             walk.fraction = 0
           }
