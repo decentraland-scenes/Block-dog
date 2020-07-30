@@ -4,32 +4,37 @@ A scene with a simple AI character. It randomly chooses what action to take: fol
 
 ![](screenshot/screenshot.png)
 
-[Explore the scene](https://blockdog-flbnuykvwf.now.sh): this link takes you to a copy of the scene deployed to a remote server where you can interact with it just as if you were running `dcl start` locally.
+This scene shows you:
+
+- How to handle multple animations on a 3D model
+- How to create a basic AI, giving an NPC a basic state-machine behavior
+- How to use randomness to determine autonomous behavior of a character
+- How to override random behaviour with specific commands
+- How to make an entity follow the player's position
+
+
+
+## Try it out
 
 **Install the CLI**
 
-Download and install the Decentraland CLI by running the following command
+Download and install the Decentraland CLI by running the following command:
 
 ```bash
 npm i -g decentraland
 ```
 
-For a more details, follow the steps in the [Installation guide](https://docs.decentraland.org/documentation/installation-guide/).
-
-
 **Previewing the scene**
 
-Once you've installed the CLI, download this example and navigate to its directory from your terminal or command prompt.
-
-_from the scene directory:_
+Download this example and navigate to its directory, then run:
 
 ```
 $:  dcl start
 ```
 
-Any dependencies are installed and then the CLI will open the scene in a new browser tab automatically.
+Any dependencies are installed and then the CLI opens the scene in a new browser tab.
 
-**Usage**
+**Scene Usage**
 
 - The dog has autonomous behavior and randomly sits and stands up on its own.
 - If you click the dog, it switches from standing up to sitting down.
@@ -38,6 +43,7 @@ Any dependencies are installed and then the CLI will open the scene in a new bro
 
 Learn more about how to build your own scenes in our [documentation](https://docs.decentraland.org/) site.
 
+If something doesn’t work, please [file an issue](https://github.com/decentraland-scenes/Awesome-Repository/issues/new).
 
 ## Copyright info
 
