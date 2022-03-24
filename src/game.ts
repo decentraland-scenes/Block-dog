@@ -5,7 +5,7 @@ import {
   Goal,
   setDogGoal,
   addAnimations,
-  SWITCH_COOLDOWN,
+  SWITCH_COOLDOWN
 } from './modules/switchGoals'
 
 // camera object to get user position
@@ -24,21 +24,20 @@ const bowl = new Entity()
 bowl.addComponent(new GLTFShape('models/BlockDogBowl.gltf'))
 bowl.addComponent(
   new Transform({
-    position: new Vector3(9, 0, 1),
+    position: new Vector3(9, 0, 1)
   })
 )
 bowl.addComponent(
   new OnPointerDown(
     (e) => {
-      if (dog.getComponent(Behavior).goal == Goal.Sit) {
+      if (dog.getComponent(Behavior).goal === Goal.Sit) {
         // if sitting, stand up
         setDogGoal(dog, Goal.Idle)
       } else {
         // if standing, go drink
         setDogGoal(dog, Goal.GoDrink)
-        dog.getComponent(LerpData).target = bowl.getComponent(
-          Transform
-        ).position
+        dog.getComponent(LerpData).target =
+          bowl.getComponent(Transform).position
         dog.getComponent(LerpData).origin = dog.getComponent(Transform).position
         dog.getComponent(LerpData).fraction = 0
       }
@@ -55,7 +54,7 @@ garden.addComponent(new GLTFShape('models/garden.glb'))
 garden.addComponent(
   new Transform({
     position: new Vector3(8, 0, 8),
-    scale: new Vector3(1.6, 1.6, 1.6),
+    scale: new Vector3(1.6, 1.6, 1.6)
   })
 )
 engine.addEntity(garden)
@@ -64,7 +63,7 @@ engine.addEntity(garden)
 const dog = new Entity()
 dog.addComponent(new GLTFShape('models/BlockDog.glb'))
 dog.addComponent(new Animator())
-let idleAnimation = new AnimationState('Idle_Armature_0')
+const idleAnimation = new AnimationState('Idle_Armature_0')
 
 dog.getComponent(Animator).addClip(idleAnimation)
 
@@ -72,7 +71,7 @@ dog.getComponent(Animator).getClip('Idle').play()
 
 dog.addComponent(
   new Transform({
-    position: new Vector3(5, 0, 5),
+    position: new Vector3(5, 0, 5)
   })
 )
 dog.addComponent(new Behavior())
@@ -80,7 +79,7 @@ dog.addComponent(new LerpData())
 dog.addComponent(
   new OnPointerDown(
     (e) => {
-      if (dog.getComponent(Behavior).goal == Goal.Sit) {
+      if (dog.getComponent(Behavior).goal === Goal.Sit) {
         setDogGoal(dog, Goal.Idle)
       } else {
         setDogGoal(dog, Goal.Sit)

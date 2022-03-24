@@ -10,9 +10,9 @@
   "owner": "",
   "scene": {
     "parcels": [
-      "0,0"
+      "-125,-96"
     ],
-    "base":"0,0"
+    "base": "-125,-96"
   },
   "communications": {
     "type": "webrtc",
@@ -22,7 +22,7 @@
     "contentRating": "E",
     "fly": true,
     "voiceEnabled": true,
-    "blacklist": [] 
+    "blacklist": []
   },
   "main": "bin/game.js",
   "tags": [],
@@ -34,8 +34,8 @@
         "x": 0,
         "y": 0,
         "z": 0
-	  },
-	  "cameraTarget": {
+      },
+      "cameraTarget": {
         "x": 8,
         "y": 1,
         "z": 8

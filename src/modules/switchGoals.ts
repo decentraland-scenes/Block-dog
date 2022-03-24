@@ -11,7 +11,7 @@ export enum Goal {
   Sit,
   Follow,
   GoDrink,
-  Drinking,
+  Drinking
 }
 
 // store the current and last goal
@@ -28,10 +28,10 @@ export const dogs = engine.getComponentGroup(Behavior)
 // evaluate goals randomly
 export class SwitchGoals implements ISystem {
   update(dt: number) {
-    for (let dog of dogs.entities) {
-      let behavior = dog.getComponent(Behavior)
-      let walk = dog.getComponent(LerpData)
-      let transform = dog.getComponent(Transform)
+    for (const dog of dogs.entities) {
+      const behavior = dog.getComponent(Behavior)
+      const walk = dog.getComponent(LerpData)
+      const transform = dog.getComponent(Transform)
       behavior.timer -= dt
       if (behavior.timer <= 0) {
         behavior.timer = SWITCH_COOLDOWN
@@ -39,7 +39,7 @@ export class SwitchGoals implements ISystem {
           case Goal.Idle:
             considerGoals(dog, [
               { goal: Goal.Sit, odds: 0.1 },
-              { goal: Goal.Follow, odds: 0.9 },
+              { goal: Goal.Follow, odds: 0.9 }
             ])
             break
           case Goal.Drinking:
@@ -54,8 +54,8 @@ export class SwitchGoals implements ISystem {
             considerGoals(dog, [{ goal: Goal.Idle, odds: 0.1 }])
             break
         }
-        if (behavior.goal == Goal.Follow) {
-          let newTarget = camera.position.clone()
+        if (behavior.goal === Goal.Follow) {
+          const newTarget = camera.position.clone()
           newTarget.y = 0
           walk.target = newTarget
           walk.origin = transform.position
@@ -63,7 +63,7 @@ export class SwitchGoals implements ISystem {
         }
       }
       if (
-        behavior.goal == Goal.GoDrink &&
+        behavior.goal === Goal.GoDrink &&
         Vector3.Distance(walk.target, transform.position) < 1
       ) {
         setDogGoal(dog, Goal.Drinking)
@@ -71,7 +71,7 @@ export class SwitchGoals implements ISystem {
         behavior.timer = SWITCH_COOLDOWN
       }
       if (
-        behavior.goal == Goal.Follow &&
+        behavior.goal === Goal.Follow &&
         Vector3.Distance(walk.target, transform.position) < 2
       ) {
         setDogGoal(dog, Goal.Sit)
@@ -96,7 +96,7 @@ export function considerGoals(
           }
           break
         case Goal.Drinking:
-          if (dog.getComponent(Behavior).goal == Goal.Sit) {
+          if (dog.getComponent(Behavior).goal === Goal.Sit) {
             continue
           }
           break
@@ -109,13 +109,13 @@ export function considerGoals(
 
 // set the values in the Behavior component
 export function setDogGoal(dog: IEntity, goal: Goal) {
-  let behavior = dog.getComponent(Behavior)
+  const behavior = dog.getComponent(Behavior)
   behavior.previousGoal = behavior.goal
   behavior.goal = goal
   log('new goal:	 ' + goal)
   setAnimations(dog)
   behavior.timer = SWITCH_COOLDOWN
-  if (goal == Goal.Sit) {
+  if (goal === Goal.Sit) {
     dog.getComponent(OnPointerDown).hoverText = 'Stand'
   } else {
     dog.getComponent(OnPointerDown).hoverText = 'Sit'
@@ -123,11 +123,11 @@ export function setDogGoal(dog: IEntity, goal: Goal) {
 }
 
 //add animations
-let sit = new AnimationState('Sitting', { looping: false })
-let stand = new AnimationState('Standing', { looping: false })
-let walk = new AnimationState('Walking')
-let drink = new AnimationState('Drinking')
-let idle = new AnimationState('Idle')
+const sit = new AnimationState('Sitting', { looping: false })
+const stand = new AnimationState('Standing', { looping: false })
+const walk = new AnimationState('Walking')
+const drink = new AnimationState('Drinking')
+const idle = new AnimationState('Idle')
 
 export function addAnimations(dog: IEntity) {
   dog.getComponent(Animator).addClip(sit)
@@ -155,7 +155,7 @@ export function setAnimations(dog: IEntity) {
       idle.play()
       break
   }
-  if (dog.getComponent(Behavior).previousGoal == Goal.Sit) {
+  if (dog.getComponent(Behavior).previousGoal === Goal.Sit) {
     stand.play()
   }
 }
